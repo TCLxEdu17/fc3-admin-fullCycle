@@ -1,5 +1,7 @@
 package com.fullcycle.admin.catalogo.domain.Category;
 
+import com.fullcycle.admin.catalogo.domain.exceptions.DomainException;
+import com.fullcycle.admin.catalogo.domain.validation.handler.ThrowsValidationHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,12 +37,16 @@ public class CategoryTest {
         final var expectedDescription = "A categoria mais assistida";
         final var expectedActive = true;
 
-        final var actualException = Category.newCategory(expectedName, expectedDescription, expectedActive);
+        final var actualCategory =
+                Category.newCategory(expectedName, expectedDescription, expectedActive);
 
-        Assertions.assertThrows(DomainException.class, () -> actualCategory.validate);
+        final var actualException =
+                Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));
 
-        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors.size);
-        Assertions.assertEquals(expectedErrorCount, actualException.getErrors);
+        Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
 
     }
+
+
 }
