@@ -24,5 +24,23 @@ public class CategoryTest {
         Assertions.assertNotNull(actualCategory.getUpdatedAt());
         Assertions.assertNull(actualCategory.getDeletedAt());
 
+    }@Test
+    public void givenAInvalidNullName_whenCallNewCategoryAndValidate_thenShouldReceiveError() {
+
+        //criacao de teste baseado em TDD, garantindo que o métod0 seja implementado após o teste.
+
+        final String expectedName = null;
+        final var expectedErrorMessage = "'name' should not be null";
+        final var expectedErrorCount = 1;
+        final var expectedDescription = "A categoria mais assistida";
+        final var expectedActive = true;
+
+        final var actualException = Category.newCategory(expectedName, expectedDescription, expectedActive);
+
+        Assertions.assertThrows(DomainException.class, () -> actualCategory.validate);
+
+        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors.size);
+        Assertions.assertEquals(expectedErrorCount, actualException.getErrors);
+
     }
 }

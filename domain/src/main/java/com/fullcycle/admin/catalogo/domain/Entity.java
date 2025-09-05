@@ -2,10 +2,15 @@ package com.fullcycle.admin.catalogo.domain;
 
 // definida pelo identificador
 
+import com.fullcycle.admin.catalogo.domain.validation.ValidationHandler;
+
 import java.util.Objects;
 
 // definida pelo identificador, tem que ser unico e constante por tod0 lifecycle
 public abstract class Entity<ID extends Identifier> {
+
+
+    public abstract void validate(ValidationHandler handler);
 
     //imutável
     protected final ID id;
