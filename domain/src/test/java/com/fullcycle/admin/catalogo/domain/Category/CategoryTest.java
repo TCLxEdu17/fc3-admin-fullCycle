@@ -26,7 +26,9 @@ public class CategoryTest {
         Assertions.assertNotNull(actualCategory.getUpdatedAt());
         Assertions.assertNull(actualCategory.getDeletedAt());
 
-    }@Test
+    }
+
+    @Test
     public void givenAInvalidNullName_whenCallNewCategoryAndValidate_thenShouldReceiveError() {
 
         //criacao de teste baseado em TDD, garantindo que o métod0 seja implementado após o teste.
@@ -48,5 +50,100 @@ public class CategoryTest {
 
     }
 
+
+    @Test
+    public void givenAInvalidEmptyName_whenCallNewCategoryAndValidate_thenShouldReceiveError() {
+
+        //criacao de teste baseado em TDD, garantindo que o métod0 seja implementado após o teste.
+
+        final String blankName = " " ;
+        final var expectedErrorMessage = "'name' should not be empty";
+        final var expectedErrorCount = 1;
+        final var expectedDescription = "A categoria mais assistida";
+        final var expectedActive = true;
+
+        final var actualCategory =
+                Category.newCategory(blankName, expectedErrorMessage, expectedActive);
+
+        final var actualException =
+                Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));
+
+        Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+
+    }
+
+    @Test
+    public void givenAInvalidNameLenghtLessThan3_whenCallNewCategoryAndValidate_thenShouldReceiveError() {
+
+        //criacao de teste baseado em TDD, garantindo que o métod0 seja implementado após o teste.
+
+        final String blankName = "Fi " ;
+        final var expectedErrorCount = 1;
+        final var expectedErrorMessage = "'name' must be between 3 and 255 characters ";
+        final var expectedDescription = "A categoria mais assistida";
+        final var expectedActive = true;
+
+        final var actualCategory =
+                Category.newCategory(blankName, expectedErrorMessage, expectedActive);
+
+        final var actualException =
+                Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));
+
+        Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+
+    }
+
+    @Test
+    public void givenAInvalidNameLenghtMoreThan255_whenCallNewCategoryAndValidate_thenShouldReceiveError() {
+
+        //criacao de teste baseado em TDD, garantindo que o métod0 seja implementado após o teste.
+
+        final var blankName = """
+                 Assim mesmo, a necessidade de renovação processual representa uma abertura para a melhoria da l
+                ógica predominante nas decisões estratégicas. Evidentemente, a gestão eficiente dos recursos estratégicos assume importantes
+                 posições no estabelecimento do remanejamento dos quadros funcionais. 
+                 O cuidado em identificar pontos críticos na análise aprofundada dos indicadores-chave
+                  ainda não demonstrou convincentemente que vai participar na mudança da fluidez dos
+                   cenários contemporâneos. Todavia, o desafiador cenário globalizado exige a precisão e a 
+                   definição das regras de conduta normativas. """ ;
+        final var expectedErrorMessage = "'name' must be between 3 and 255 characters ";
+        final var expectedErrorCount = 1;
+        final var expectedDescription = "A categoria mais assistida";
+        final var expectedActive = true;
+
+        final var actualCategory =
+                Category.newCategory( blankName, expectedErrorMessage, expectedActive);
+
+        final var actualException =
+                Assertions.assertThrows(DomainException.class, () -> actualCategory.validate(new ThrowsValidationHandler()));
+
+        Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+
+    }
+
+    @Test
+    public void givenAInvalidEmptyDescription_whenCallNewCategoryAndValidate_thenShouldReceiveError() {
+
+        //criacao de teste baseado em TDD, garantindo que o métod0 seja implementado após o teste.
+
+        final String expectedName = "Filmes";
+        final var expectedDescription = " ";
+        final var expectedActive = true;
+
+        final var actualCategory =
+                Category.newCategory(expectedName, expectedDescription, expectedActive);
+
+        Assertions.assertDoesNotThrow(() -> actualCategory.validate(new ThrowsValidationHandler()));
+        Assertions.assertNotNull(actualCategory);
+        Assertions.assertNotNull(actualCategory);
+        Assertions.assertEquals(expectedName, actualCategory.getName());
+        Assertions.assertEquals(expectedDescription, actualCategory.getDescription());
+        Assertions.assertNotNull(actualCategory.getCreatedAt());
+        Assertions.assertNotNull(actualCategory.getUpdatedAt());
+        Assertions.assertNull(actualCategory.getDeletedAt());
+    }
 
 }
