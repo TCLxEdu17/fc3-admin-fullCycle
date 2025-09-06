@@ -135,7 +135,4 @@ public class Category extends AggregateRoot<CategoryID> {
         this.deletedAt = deletedAt;
     }
 
-
-
-
 }

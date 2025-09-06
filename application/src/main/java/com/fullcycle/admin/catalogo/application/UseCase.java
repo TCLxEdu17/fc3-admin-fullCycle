@@ -3,12 +3,8 @@ package com.fullcycle.admin.catalogo.application;
 
 import com.fullcycle.admin.catalogo.domain.Category.Category;
 
-public class UseCase {
-    private String id;
+public abstract class UseCase<IN ,OUT> {
 
-
-       // return new Category();
-
-
+    public abstract OUT execute (IN anIn);
 
     }
