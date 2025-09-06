@@ -3,6 +3,7 @@ package com.fullcycle.admin.catalogo.domain.Category;
 
 import com.fullcycle.admin.catalogo.domain.AggregateRoot;
 import com.fullcycle.admin.catalogo.domain.validation.ValidationHandler;
+import com.sun.management.GarbageCollectionNotificationInfo;
 
 import java.time.Instant;
 
@@ -33,6 +34,32 @@ public class Category extends AggregateRoot<CategoryID> {
         this.updatedAt = aUpdateDate;
         this.deletedAt = aDeletedDate;
     }
+
+    public static Category newCategory(final String aName, final String aDescription, final boolean isActive ) {
+        final var id =  CategoryID.unique();
+        final var now = Instant.now();
+        final var deletedAt = isActive ? null : now;
+        return new Category(id, aName, aDescription, isActive, now, now, null );
+    }
+
+    public Category deactivate(){
+        if(getDeletedAt() == null) {
+            this.deletedAt = Instant.now();
+        }
+
+        this.active = false;
+        this.updatedAt = Instant.now();
+        return this;
+    }
+
+    public Category activate(){
+            this.deletedAt = null;
+            this.active = true;
+            this.updatedAt = Instant.now();
+
+        return this;
+    }
+
 
     @Override
     public void validate(final ValidationHandler handler) {
@@ -92,10 +119,7 @@ public class Category extends AggregateRoot<CategoryID> {
         this.deletedAt = deletedAt;
     }
 
-    public static Category newCategory(final String aName, final String aDescription, final boolean isActive ) {
-        final var id =  CategoryID.unique();
-        final var now = Instant.now();
-        final var deletedAt = isActive ? null : now;
-        return new Category(id, aName, aDescription, isActive, now, now, null );
-    }
+
+
+
 }
