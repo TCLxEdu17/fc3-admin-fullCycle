@@ -3,7 +3,6 @@ package com.fullcycle.admin.catalogo.domain.Category;
 
 import com.fullcycle.admin.catalogo.domain.AggregateRoot;
 import com.fullcycle.admin.catalogo.domain.validation.ValidationHandler;
-import com.sun.management.GarbageCollectionNotificationInfo;
 
 import java.time.Instant;
 
